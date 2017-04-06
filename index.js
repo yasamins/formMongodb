@@ -2,7 +2,7 @@
 let originalData = null;
 let map = null;
 let marker = null;
-spyArray = [];
+
 
 const fetchData = () => {
     fetch('data.json')
@@ -17,14 +17,15 @@ const fetchData = () => {
 
         });
 };
-const sortData = (a,b) => {
-  var textA = a.category.toUpperCase();
-     var textB = b.category.toUpperCase();
-     return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
- });
-    // const newItems = items.filter(item => item.category === rule);
-    // update(newItems);
-// };
+// const sortData = (a,b) => {
+//   var textA = a.category.toUpperCase();
+//      var textB = b.category.toUpperCase();
+//      return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+//  });
+const sortItems = (items, rule) => {
+    const newItems = items.filter(item => item.category === rule);
+    update(newItems);
+  };
 // const sortData(function(a, b) {
 //     var textA = a.category.toUpperCase();
 //     var textB = b.category.toUpperCase();
@@ -69,6 +70,15 @@ function initMap() {
     });
     var marker = new google.maps.Marker({
         map: map
+    });
+};
+const resetMap = (item) => {
+    const coords = item.coordinates;
+    console.log(coords);
+    google.maps.event.trigger(map, "resize");
+    map.panTo(coords);
+    marker.setOptions({
+        position: coords
     });
 };
 fetchData();
